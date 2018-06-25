@@ -1,0 +1,98 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Mappings: 
+  RegionMap: 
+    us-east-1: 
+      AMI: ami-afd15ed0
+Resources:
+  WebVPC01:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsSupport: 'true'
+      EnableDnsHostnames: 'true'
+      InstanceTenancy: default
+      Tags:
+      - Key: Name
+        Value: web01
+  PublicSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId:
+        Ref: WebVPC01
+      CidrBlock: 10.0.0.0/24
+      AvailabilityZone: "us-east-1a"
+      Tags:
+      - Key: Name
+        Value: web01-public
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+      - Key: Application
+        Value: 
+        - Ref: AWS::StackId
+  AttachInternetGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: [Ref: WebVPC01]
+      InternetGatewayId: [Ref: InternetGateway]
+  RouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: [Ref: WebVPC01]
+      Tags:
+      - Key: Application
+        Value: 
+        - Ref: AWS::StackId
+  Route:
+    Type: AWS::EC2::Route
+    DependsOn: AttachInternetGateway
+    Properties:
+      RouteTableId: [Ref: RouteTable]
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: [Ref: InternetGateway]
+  AssociateRouteTable:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: [Ref: PublicSubnet]
+      RouteTableId: [Ref: RouteTable]
+  InstanceSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      VpcId:
+        Ref: WebVPC01
+      GroupDescription: "Enable SSH & HTTP"
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0 
+  Ec2Instance: 
+    Type: "AWS::EC2::Instance"
+    Properties: 
+      ImageId: 
+        Fn::FindInMap: 
+          - "RegionMap"
+          - Ref: "AWS::Region"
+          - AMI
+      SecurityGroupIds: [Ref: 'InstanceSecurityGroup']
+      SubnetId:
+        Ref: PublicSubnet
+      InstanceType: t2.micro
+      Tags:
+        - Key: Name
+          Value: Web Server 01
+  ElasticIP:
+    Type: AWS::EC2::EIP
+    Properties:
+      InstanceId: 
+        Ref: 'Ec2Instance'
+Outputs:
+  Url:
+    Description: Web Server Public IP
+    Value: "PublicIp"
+
