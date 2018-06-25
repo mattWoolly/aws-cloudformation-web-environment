@@ -26,36 +26,34 @@ Resources:
         Value: web01-public
   InternetGateway:
     Type: AWS::EC2::InternetGateway
-    Properties:
-      Tags:
-      - Key: Application
-        Value: 
-        - Ref: AWS::StackId
   AttachInternetGateway:
     Type: AWS::EC2::VPCGatewayAttachment
     Properties:
-      VpcId: [Ref: WebVPC01]
-      InternetGatewayId: [Ref: InternetGateway]
+      VpcId: 
+        Ref: WebVPC01
+      InternetGatewayId: 
+        Ref: InternetGateway
   RouteTable:
     Type: AWS::EC2::RouteTable
     Properties:
-      VpcId: [Ref: WebVPC01]
-      Tags:
-      - Key: Application
-        Value: 
-        - Ref: AWS::StackId
+      VpcId: 
+        Ref: WebVPC01
   Route:
     Type: AWS::EC2::Route
     DependsOn: AttachInternetGateway
     Properties:
-      RouteTableId: [Ref: RouteTable]
+      RouteTableId: 
+        Ref: RouteTable
       DestinationCidrBlock: 0.0.0.0/0
-      GatewayId: [Ref: InternetGateway]
+      GatewayId: 
+        Ref: InternetGateway
   AssociateRouteTable:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
-      SubnetId: [Ref: PublicSubnet]
-      RouteTableId: [Ref: RouteTable]
+      SubnetId: 
+        Ref: PublicSubnet
+      RouteTableId: 
+        Ref: RouteTable
   InstanceSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
