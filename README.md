@@ -2,9 +2,9 @@
 ## Description
 Python script to run CloudFormation actions
 ## REQUIREMENTS
-Python 2.7
-BOTO3
-AWS Credentials set up within your local environment
+* Python 2.7
+* BOTO3
+* AWS Credentials set up within your local environment
 ## Usage & Examples
 ```
 ./cf-control.py --help`
