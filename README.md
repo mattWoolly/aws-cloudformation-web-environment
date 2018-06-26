@@ -15,6 +15,7 @@ AWS Credentials set up within your local environment
 ```
 ./cf-control.py --create --name web-stack-01
 ```
+```
 ./cf-control.py --delete --name web-stack-01
 ```
 ## CloudFormation Template Features
