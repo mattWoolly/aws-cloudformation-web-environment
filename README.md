@@ -1,6 +1,23 @@
 # aws-cloudformation-web-environment
-## CloudFormation Template
-### Provisions:
+## Description
+Python script to run CloudFormation actions
+## REQUIREMENTS
+Python 2.7
+BOTO3
+AWS Credentials set up within your local environment
+## Usage & Examples
+```
+./cf-control.py --help`
+```
+```
+./cf-control.py --describe --name web-stack-01
+```
+```
+./cf-control.py --create --name web-stack-01
+```
+./cf-control.py --delete --name web-stack-01
+```
+## CloudFormation Template Features
 1. VPC
 2. Subnet
 3. Internet Gateway
