@@ -7,7 +7,7 @@ Python script to run CloudFormation actions. CloudFormation template can be manu
 * AWS Credentials set up within your local environment
 ## Usage & Examples
 ```
-./cf-control.py --help`
+./cf-control.py --help
 ```
 ```
 ./cf-control.py --describe --name web-stack-01
@@ -28,5 +28,5 @@ Python script to run CloudFormation actions. CloudFormation template can be manu
 7. EC2 Instance based on Amazon Linux 2 (t2.micro)
 9. Creates Elastic IP & assigns to EC2 instance
 10. Installs Apache web server & installs an index.html page
-11. CloudFormation outputs the public IP where the idnex.html page can be viewed.
+11. CloudFormation outputs the public IP where the index.html page can be viewed.
  
