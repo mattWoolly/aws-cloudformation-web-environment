@@ -1,6 +1,6 @@
 # aws-cloudformation-web-environment
 ## Description
-Python script to run CloudFormation actions
+Python script to run CloudFormation actions. CloudFormation template can be manually used within AWS console, or used with the included Python utility. The Python utility references the same CloudFormation template, pulled from S3.
 ## REQUIREMENTS
 * Python 2.7
 * BOTO3
