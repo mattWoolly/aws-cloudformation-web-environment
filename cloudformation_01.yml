@@ -79,6 +79,15 @@ Resources:
           - AMI
       SecurityGroupIds: [Ref: 'InstanceSecurityGroup']
       KeyName: ansible-docker-test-2018
+      UserData:
+        Fn::Base64: 
+          !Sub |
+            #!/bin/bash
+            yum update -y aws-cfn-bootstrap
+            yum update -y
+            yum install httpd -y
+            echo "<h1>Automation for the People</h1>" > /usr/share/httpd/noindex/index.html
+            systemctl start httpd   
       SubnetId:
         Ref: PublicSubnet
       InstanceType: t2.micro
@@ -91,7 +100,9 @@ Resources:
       InstanceId: 
         Ref: 'Ec2Instance'
 Outputs:
-  Url:
-    Description: Web Server Public IP
-    Value: "PublicIp"
-
+  InstanceId:
+    Value: !Ref 'Ec2Instance'
+    Description: Instance ID of web server
+  PublicIp:
+    Value: !Ref 'ElasticIP'
+    Description: Public IP
