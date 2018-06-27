@@ -18,7 +18,8 @@ Python script to run CloudFormation actions. CloudFormation template can be manu
 ```
 ./cf-control.py --delete --name web-stack-01
 ```
-```cf-control.py --test --name web-stack-01
+```
+cf-control.py --test --name web-stack-01
 ```
 ## CloudFormation Template Features
 1. VPC
