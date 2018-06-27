@@ -4,6 +4,9 @@ Python script to run CloudFormation actions. CloudFormation template can be manu
 ## REQUIREMENTS
 * Python 2.7
 * BOTO3
+* argparse
+* pycurl
+* StringIO
 * AWS Credentials set up within your local environment
 ## Usage & Examples
 ```

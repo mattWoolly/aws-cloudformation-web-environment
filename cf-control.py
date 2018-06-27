@@ -14,13 +14,12 @@ stack_name = 'web01'
 test_body = '<h1>Automation for the People</h1>'
 
 def describe_stack(name):
-    response = client.describe_stacks(
+    response = client.describe_stack_resources(
         StackName = name
     )
-    stack = response['Stacks'][0]
-    for item in stack['Outputs']:
-        print item['Description'] + " : " +  item['OutputValue']
-    print ""
+    resource = response['StackResources']
+    for a in resource:
+        print a['ResourceType'] + " >>  " + a['ResourceStatus']
 
 def validate_template(template_local):
     try:
@@ -51,6 +50,26 @@ def delete_stack(name):
         print error
 
 def test_stack(name):
+    response = client.describe_stack_resources(
+        StackName = name
+    )
+    resource = response['StackResources']
+
+    for a in resource:
+        print a['ResourceType'] + " >>  " + a['ResourceStatus']
+    
+    print ""
+
+    if all(a['ResourceStatus'] == 'CREATE_COMPLETE' for a in resource):
+        print "All resources created successfully"
+    elif any(a['ResourceStatus'] == 'CREATE_IN_PROGRESS' for a in resource):
+        print "Some resources still creating"
+        return
+    else:
+        print "A resource failed"
+   
+    print ""
+
     response = client.describe_stacks(
         StackName = name
     )
@@ -66,12 +85,14 @@ def test_stack(name):
             curl.close()
             
             body = buffer.getvalue()
+            
             print "Web Server Displays: " + body.rstrip()
-            print "Web Server Should Display: " + test_body.rstrip()
+            print ""
+            
             if body.rstrip() == test_body.rstrip():
-                print "Validated"
+                print "Stack Validated"
             else:
-                print "Not Validated"
+                print "Stack Not Validated"
 
 # Manual overrides
 #validate_template(cf_template)
