@@ -74,6 +74,11 @@ Stack Validated
 10. Installs Apache web server & installs an index.html page
 11. CloudFormation outputs the public IP where the index.html page can be viewed.
 
+## To-Do
+* Python utility pulls CloudFormation template from S3. This should sync from the local copy. I didn't add it to this project since the user won't have write permissions to the S3 bucket used.
+* Clean --create and --delete output
+* Testing is very basic but shows if the stack creation and web server function. Moto integration would be nice.
+
 ## Authors
 Matt Woolly
 
